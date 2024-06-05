@@ -1,5 +1,6 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
+use std::env;
 
 fn main() {
     // You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -26,11 +27,17 @@ fn main() {
                 if builtin_commands.contains(&args.clone().next().unwrap()) {
                     println!("{} is a shell builtin", args.clone().next().unwrap());
                 } else {
-                    println!("{} not found", args.clone().next().unwrap());}
+                    match env::var("PATH")
+                    .unwrap().split(":")
+                    .map(|path| format!("{}/{}", path, args.clone().next().unwrap()))
+                    .find(|path| std::fs::metadata(path).is_ok()) {
+                        Some(path) => println!("{} is {}", args.clone().next().unwrap(), path),
+                        None => println!("{} not found", args.clone().next().unwrap())
+                    }
                 }
-             else {
+            } else {
                 println!("{}: command not found", command);
-            }
             }
         }
     }
+}
