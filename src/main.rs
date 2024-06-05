@@ -16,7 +16,14 @@ fn main() {
         if input.trim() == "exit 0" {
             break;
         } else {
-            println!("{}: command not found", input.trim());
+            let mut args = input.trim().split_whitespace();
+            let command = args.next().unwrap();
+            let args = args.skip(0);
+            if command == "echo" {
+                println!("{}", args.collect::<Vec<&str>>().join(" "));
+            } else {
+                println!("{}: command not found", command);
+            }
         }
     }
 }
