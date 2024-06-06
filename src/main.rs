@@ -1,6 +1,7 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
 use std::env;
+use std::process::Command;
 
 fn main() {
     // You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -36,7 +37,20 @@ fn main() {
                     }
                 }
             } else {
-                println!("{}: command not found", command);
+                match env::var("PATH")
+                .unwrap().split(":")
+                .map(|path| format!("{}/{}", path, command))
+                .find(|path| std::fs::metadata(path).is_ok()) {
+                    Some(path) => {
+                        let output = Command::new(path)
+                        .args(args)
+                        .output()
+                        .expect("Failed to execute command");
+                        io::stdout().write_all(&output.stdout).unwrap();
+                        io::stderr().write_all(&output.stderr).unwrap();
+                    },
+                    None => println!("{}: command not found", command)
+                }
             }
         }
     }
