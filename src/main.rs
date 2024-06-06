@@ -36,6 +36,17 @@ fn main() {
                         None => println!("{} not found", args.clone().next().unwrap())
                     }
                 }
+            } else if command == "cd" {
+                let path = args.clone().next().unwrap();
+                if path == "~" {
+                    env::set_current_dir(env::var("HOME").unwrap()).unwrap();
+                } else {
+                    if std::fs::metadata(path).is_ok() {
+                        env::set_current_dir(path).unwrap();
+                    } else {
+                        println!("cd: {}: No such file or directory", path);
+                    }
+                }
             } else {
                 match env::var("PATH")
                 .unwrap().split(":")
