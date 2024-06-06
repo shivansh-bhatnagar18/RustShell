@@ -46,7 +46,8 @@ fn main() {
                     } else {
                         println!("cd: {}: No such file or directory", path);
                     }
-                }
+                }// the set_cuur_dir function is used to change the current working directory
+                //so it handles relative paths as well as absolute paths
             } else {
                 match env::var("PATH")
                 .unwrap().split(":")
