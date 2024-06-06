@@ -6,7 +6,7 @@ use std::process::Command;
 fn main() {
     // You can use print statements as follows for debugging, they'll be visible when running tests.
     // println!("Logs from your program will appear here!");
-    let builtin_commands = vec!["echo", "exit", "type"];
+    let builtin_commands = vec!["echo", "exit", "type", "pwd", "cd", "export", "unset", "alias", "unalias", "history", "source"];
     loop {
     // Uncomment this block to pass the first stage
         print!("$ ");
