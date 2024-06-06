@@ -48,6 +48,7 @@ fn main() {
                     }
                 }// the set_cuur_dir function is used to change the current working directory
                 //so it handles relative paths as well as absolute paths
+                //as well it handles the home directory
             } else {
                 match env::var("PATH")
                 .unwrap().split(":")
